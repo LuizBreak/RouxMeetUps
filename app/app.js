@@ -42,22 +42,29 @@ var current_minutes = date.getSeconds();
 // connecting to mongo and create a database called guests if it does not exist yet
 // source: https://zellwk.com/blog/crud-express-mongodb/
 
-mongo.connect("mongodb://192.168.0.122:27017/guests", function(err,db){
+mongo.connect("mongodb://127.0.0.1:27017/guests", function(err,db){
 		
 	if(!err){
 		
 		console.log("we are connected to mongo");
 		// Insert a new record into a collection called guestList 
 		// with a Name + timeStamp every time you instantiate the app 
-		db.collection('guestList').insertOne({'useName':'Ronaldo-' + current_minutes , "pwd": "EhNois"});
+		// db.collection('guestList').insertOne({'useName':'Ronaldo-' + current_minutes , "pwd": "EhNois"});
+
+                try {
+                       db.guestList.insertOne( { 'useName':'Ronaldo -' + current_minutes, "pwd": "EhNois" } );
+                } catch (e) {
+                       //print (e);
+                };
+
 		database = db;
 		
 		console.log('* All documents:');
 		
 		// display all documents in guestList collection
-		database.collection('guestList').find().toArray(function(err, cursor) {
-		  console.log(cursor);
-		})
+		// database.collection('guestList').find().toArray(function(err, cursor) {
+		  // console.log(cursor);
+		//})
 	}
 }) 
 reload(server, app);
